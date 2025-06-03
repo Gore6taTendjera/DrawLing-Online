@@ -1,0 +1,134 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'jacoco'
+    id "org.sonarqube" version "6.0.1.5171"
+
+
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    mockitoAgent
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    testImplementation 'org.springframework.security:spring-security-test'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
+
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.3'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.14.2'
+
+
+    implementation 'io.github.cdimascio:dotenv-java:3.1.0'
+
+
+
+
+    implementation 'org.mapstruct:mapstruct:1.6.2'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.2'
+
+
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+
+    mockitoAgent('org.mockito:mockito-core:') {
+        transitive = false
+    }
+}
+
+
+test {
+    jvmArgs '-XX:+EnableDynamicAgentLoading'
+    useJUnitPlatform()
+    reports {
+        junitXml.required = true
+        junitXml.outputLocation = file("build/test-results/junit/")
+    }
+    finalizedBy jacocoTestReport
+
+    doLast {
+        if (project.hasProperty('javaagent')) {
+            jvmArgs += '-javaagent:' + project.property('javaagent')
+        }
+    }
+}
+
+
+
+
+
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+}
+
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+
+sonar {
+    properties {
+        property "sonar.projectKey", "drawling-server"
+        property "sonar.projectName", "drawling-server"
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.token", "sqp_4fa31a1e53f167e3ad7e168f5b6efa1331e357ca"
+        property "sonar.scm.enabled", "true"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${project.layout.buildDirectory.get().asFile}/reports/jacoco/test/jacocoTestReport.xml"
+        property "sonar.qualitygate.wait", true
+        property "sonar.exclusions", "**/DrawLingApplication.java"
+        property "sonar.exclusions", "**/GameModeServiceEnum.java"
+        property "sonar.exclusions", "**/GameRoundServiceEnum.java"
+        property "sonar.exclusions", "**/GameSessionServiceImpl.java"
+        property "sonar.exclusions", "**/GameSessionManager.java"
+    }
+}
+
+
+
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('sonarqube').configure {
+    dependsOn jacocoTestReport
+}

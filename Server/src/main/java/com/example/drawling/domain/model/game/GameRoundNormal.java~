@@ -1,0 +1,19 @@
+package com.example.drawling.domain.model.game;
+
+import com.example.drawling.domain.Interface.IGameRound;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class GameRoundNormal implements IGameRound {
+    private int duration;
+    private boolean isActive;
+    private long startTime;
+
+    public GameRoundNormal(int duration) {
+        this.duration = duration;
+        this.isActive = false;
+    }
+}
+

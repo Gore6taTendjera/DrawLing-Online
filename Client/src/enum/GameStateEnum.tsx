@@ -1,0 +1,7 @@
+export enum GameStateEnum {
+    STANDBY = "STANDBY",
+    ACTIVE = "ACTIVE",
+    ROUND_ACTIVE = "ROUND_ACTIVE",
+    ROUND_FINISHED = "ROUND_FINISHED",
+    ENDED = "ENDED"
+}

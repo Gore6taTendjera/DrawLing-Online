@@ -1,0 +1,25 @@
+package com.example.drawling.application.handler.exception;
+
+import com.example.drawling.exception.UserDisplayNameNotFoundException;
+import com.example.drawling.exception.UserNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class UserControllerExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException e) {
+        String message = "User not found.";
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    }
+
+    @ExceptionHandler(UserDisplayNameNotFoundException.class)
+    public ResponseEntity<String> handleDisplayNameNotFoundException(UserDisplayNameNotFoundException e) {
+        String message = "Display name not found.";
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    }
+
+}

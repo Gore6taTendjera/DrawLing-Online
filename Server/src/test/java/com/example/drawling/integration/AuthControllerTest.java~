@@ -1,0 +1,178 @@
+package com.example.drawling.integration;
+
+import com.example.drawling.application.controller.AuthController;
+import com.example.drawling.business.helper.RefreshCookieHelper;
+import com.example.drawling.business.interfaces.service.RefreshTokenService;
+import com.example.drawling.business.interfaces.service.UserService;
+import com.example.drawling.domain.dto.AuthRequest;
+import com.example.drawling.domain.dto.AuthResponse;
+import com.example.drawling.domain.dto.RegisterDTO;
+import com.example.drawling.domain.model.CustomUserDetails;
+import com.example.drawling.domain.model.RefreshToken;
+import com.example.drawling.domain.model.User;
+import com.example.drawling.security.CustomUserDetailsService;
+import com.example.drawling.utility.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+class AuthControllerTest {
+
+    @Mock
+    private JwtUtil jwtUtil;
+
+    @Mock
+    private UserService userService;
+
+    @Mock
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Mock
+    private AuthenticationManager authenticationManager;
+
+    @Mock
+    private RefreshTokenService refreshTokenService;
+
+    @Mock
+    private RefreshCookieHelper refreshCookieHelper;
+
+    @InjectMocks
+    private AuthController authController;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void testGetProfile() {
+        ResponseEntity<String> response = authController.getProfile();
+        assertEquals(ResponseEntity.ok("Testing auth"), response);
+    }
+
+
+    @Test
+    void testLogin() {
+        AuthRequest authRequest = new AuthRequest("testUser", "password");
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setToken("refreshToken123");
+        String jwtToken = "jwtToken123";
+
+        Authentication authentication = mock(Authentication.class);
+        when(authentication.isAuthenticated()).thenReturn(true);
+
+        when(authenticationManager.authenticate(any())).thenReturn(authentication);
+        when(refreshTokenService.createRefreshToken(authRequest.getUsername())).thenReturn(refreshToken);
+        when(jwtUtil.generateToken(authentication)).thenReturn(jwtToken);
+
+        ResponseCookie mockCookie = ResponseCookie.fromClientResponse("refreshToken", refreshToken.getToken()).build();
+        when(refreshCookieHelper.createRefreshCookie(refreshToken.getToken())).thenReturn(mockCookie);
+
+        ResponseEntity<AuthResponse> response = authController.login(authRequest);
+
+        assertEquals(ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, mockCookie.toString())
+                .body(new AuthResponse(jwtToken)), response);
+        verify(authenticationManager, times(1)).authenticate(any());
+        verify(refreshTokenService, times(1)).createRefreshToken(authRequest.getUsername());
+        verify(jwtUtil, times(1)).generateToken(authentication);
+    }
+
+
+
+    @Test
+    void testRegister() {
+        RegisterDTO registerDTO = new RegisterDTO("testUser", "password");
+        User user = new User();
+        user.setUsername(registerDTO.getUsername());
+        user.setPassword(registerDTO.getPassword());
+
+        when(userService.save(any(User.class))).thenReturn(user);
+
+        ResponseEntity<String> response = authController.register(registerDTO);
+
+        assertEquals(ResponseEntity.ok("User registered successfully"), response);
+        verify(userService, times(1)).save(any(User.class));
+    }
+
+
+    @Test
+    void testRefreshToken() {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        String requestRefreshToken = "refreshToken123";
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setToken(requestRefreshToken);
+        refreshToken.setUser(new User("testUser", "password"));
+
+        when(refreshCookieHelper.getRefreshTokenFromRequest(request)).thenReturn(requestRefreshToken);
+        when(refreshTokenService.getByToken(requestRefreshToken)).thenReturn(refreshToken);
+
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        CustomUserDetails userDetails = new CustomUserDetails("testUser", "password", 1, authorities);
+
+        when(customUserDetailsService.loadUserByUsername("testUser")).thenReturn(userDetails);
+
+        when(jwtUtil.generateToken(any())).thenReturn("jwtToken123");
+
+        ResponseCookie mockCookie = ResponseCookie.fromClientResponse("refreshToken", refreshToken.getToken()).build();
+        when(refreshCookieHelper.createRefreshCookie(refreshToken.getToken())).thenReturn(mockCookie);
+
+        ResponseEntity<AuthResponse> response = authController.refreshToken(request);
+
+        assertEquals(ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, mockCookie.toString())
+                .body(new AuthResponse("jwtToken123")), response);
+
+        verify(refreshTokenService, times(1)).getByToken(requestRefreshToken);
+        verify(jwtUtil, times(1)).generateToken(any());
+    }
+
+
+
+
+    @Test
+    void testLogout() {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        String refreshToken = "refreshToken123";
+
+        when(refreshCookieHelper.getRefreshTokenFromRequest(request)).thenReturn(refreshToken);
+
+        ResponseEntity<String> response = authController.logout(request);
+
+        assertEquals(ResponseEntity.ok("Logout successful"), response);
+        verify(refreshTokenService, times(1)).deleteByToken(refreshToken);
+    }
+
+    @Test
+    void testLoginInvalidUser() {
+        AuthRequest authRequest = new AuthRequest("invalidUser", "wrongPassword");
+
+        when(authenticationManager.authenticate(any())).thenThrow(new UsernameNotFoundException("Invalid user request!"));
+
+        try {
+            authController.login(authRequest);
+        } catch (UsernameNotFoundException e) {
+            assertEquals("Invalid user request!", e.getMessage());
+        }
+
+        verify(authenticationManager, times(1)).authenticate(any());
+    }
+}
+

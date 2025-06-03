@@ -1,0 +1,20 @@
+# Exclude TypeScript build info files
+tsconfig.node.tsbuildinfo
+tsconfig.app.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Exclude node_modules directory
+node_modules
+
+# Exclude log files
+*.log
+
+# Exclude build artifacts
+dist
+build
+
+# Exclude local environment files
+.env
+.env.local
+
+# Exclude any other files or directories you want to ignore

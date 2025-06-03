@@ -1,0 +1,66 @@
+image: openjdk:22-jdk
+
+
+  
+stages:
+  - build
+  - test
+  - sonarqube-check
+  - deploy
+
+  
+Build:
+  stage: build
+  script:
+    - cd DrawLing-Server
+    - gradle assemble
+
+    
+    
+Unit_Tests:
+  stage: test
+  script:
+    - cd DrawLing-Server
+    - gradle test --tests "com.example.drawling.business*"
+ 
+
+    
+Integration_Tests:
+  stage: test
+  script:
+    - cd DrawLing-Server
+    - gradle test --tests "com.example.drawling.integration*"
+
+ 
+E2E:
+  stage: test
+  script:
+    - cd DrawLing-Server
+    - gradle bootrun &
+    - cd ..
+    - cd Client
+    - npm install
+    - npm run dev &
+    - sleep 5
+    - npx cypress run --browser chrome
+
+
+
+sonarqube-check:
+  stage: sonarqube-check
+  image: gradle:8.12.0-jdk23
+
+  script:
+    - cd DrawLing-Server
+    - gradle sonarqube
+  allow_failure: true
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
+
+   
+
+Deploy:
+  stage: deploy
+  script:
+    - docker-compose build
+  

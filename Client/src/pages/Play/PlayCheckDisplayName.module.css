@@ -1,0 +1,91 @@
+.noDisplayName {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(182deg, #0aa0ae, #02d021);
+    background-size: 100% 100%;
+}
+
+.glassmorphismContainer {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+
+.roomContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.displayNameLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #4a004d;
+    font-weight: bold;
+}
+
+.displayNameInput {
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 350px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #333;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.displayNameInput:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 5px rgba(74, 0, 77, 0.5);
+}
+
+.setDisplayNameButton {
+    font-weight: bold;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #9b59b6, #e91e63);
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.setDisplayNameButton:hover {
+    background: linear-gradient(135deg, #e91e63, #9b59b6);
+    transform: scale(1.05);
+}
+
+.infoText {
+    color: #4a004d;
+    margin: 12px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.link {
+    color: #e91e63;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,57 @@
+services:
+  server:
+    build:
+      context: ./DrawLing-Server  
+      dockerfile: Dockerfile
+    image: drawling-server
+    env_file:
+      - ./DrawLing-Server/.env
+    volumes:
+      - ./DrawLing-Server/.env:/app/.env
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${JDBC_CONNECTION_DOCKER}
+
+
+      JDBC_CONNECTION: ${JDBC_CONNECTION}
+      JDBC_USERNAME: ${JDBC_USERNAME}
+      JDBC_PASSWORD: ${JDBC_PASSWORD}
+      JDBC_DRIVER_NAME: ${JDBC_DRIVER_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRE: ${JWT_EXPIRE}
+      REFRESH_TOKEN_EXPIRE: ${REFRESH_TOKEN_EXPIRE}
+      DIR_IMAGES: ${DIR_IMAGES}
+      MUTIPART_MAX_SIZE: ${MUTIPART_MAX_SIZE}
+      FLYWAY_URL: ${FLYWAY_URL}
+      FLYWAY_USER: ${FLYWAY_USER}
+      FLYWAY_PASSWORD: ${FLYWAY_PASSWORD}
+      
+    depends_on:
+      - mysql-db
+
+  mysql-db:
+    image: mysql:8.0.38
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${JDBC_PASSWORD}
+      MYSQL_DATABASE: drawling
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  client:
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+    image: drawling-client
+    ports:
+      - "4173:4173"
+    volumes:
+      - ./Client:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+
+volumes:
+  mysql-data:

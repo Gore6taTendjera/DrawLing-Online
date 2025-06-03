@@ -1,0 +1,315 @@
+#section1 {
+    position: relative;
+    height: fit-content;
+    padding: 100px 0;
+    /* background: linear-gradient(to right, #ca5fff, #feb47b); */
+    background: linear-gradient(182deg, #056069, #036e13);
+    background-size: 400% 400%;
+
+    /* -webkit-animation: Backgr 20s ease infinite;
+    -moz-animation: Backgr 20s ease infinite;
+    animation: Backgr 20s ease infinite; */
+}
+
+@-webkit-keyframes Backgr {
+    0% {
+        background-position: 53% 0
+    }
+    50% {
+        background-position: 48% 100%
+    }
+    100% {
+        background-position: 53% 0
+    }
+}
+@-moz-keyframes Backgr {
+    0% {
+        background-position: 53% 0
+    }
+    50% {
+        background-position: 48% 100%
+    }
+    100% {
+        background-position: 53% 0
+    }
+}
+@keyframes Backgr {
+    0% {
+        background-position: 53% 0
+    }
+    50% {
+        background-position: 48% 100%
+    }
+    100% {
+        background-position: 53% 0
+    }
+}
+
+#canvas {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: fit-content;
+    height: fit-content;
+    padding: 25px 50px 50px;
+    border-radius: 10px;
+    background-color: rgba(17, 25, 40, 0.05);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+#palette {
+    gap: 20px;
+    padding-top: 20px;
+    padding-right: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    width: fit-content;
+    /* background-color: rgba(0, 255, 170, 0.378); */
+    background-color: rgba(255, 255, 255, 0.1);
+    .icon_palette{
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+    }
+ 
+}
+
+
+canvas {
+    width: 720px;
+    height: 700px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.timer {
+    font-weight: bold;
+}
+
+.guessWord {
+    /* margin-bottom: 20px; */
+    font-family: Inconsolata, monospace;
+    position: absolute;
+    top: -55px;
+    left: 0;
+    right: 0;
+}
+
+#chat {
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 350px;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    /* border: 2px solid rgb(138, 208, 26); */
+}
+
+.chatMessages {
+    padding: 0 10px 10px 0;
+    overflow-y: auto;
+    align-items: flex-start;
+    height: 100%;
+    max-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    flex: 1;
+}
+
+
+#inputBox {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+    &.disabled {
+        background-color: rgba(0, 0, 0, 0.5); /* Change to black when disabled */
+        cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+    }
+
+    input {
+        flex: 1;
+        height: 100%;
+        border: none;
+        padding: 0 10px;
+        font-size: 16px;
+        outline: none;
+        background: rgba(255, 255, 255, 0.1);
+        color: rgb(255, 255, 255);
+    }
+
+    button {
+        width: 50px;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        &.disabled {
+            cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+        }
+        &.disabled:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+        }
+    }
+}
+
+
+
+
+.row {
+    max-height: 700px;
+    height: 100%;
+}
+
+.personalCard {
+    background-color: rgba(255, 255, 255, 0.35) !important;
+    border: 1px rgba(255, 255, 255, 0.2) solid !important;
+}
+
+.playerCards {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    /* margin-right: 10px; */
+    gap: 20px;
+
+    .playerCard {
+        align-items: center;
+        align-content: center;
+        width: 200px;
+        height: 65px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+        .playerInfo{
+            align-items: center;
+            justify-content: center;
+            .playerImage {
+                margin-right: 10px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+        }
+
+     
+    }
+}
+
+
+
+.roomContainer{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.pencilIcon {
+    height: 100%;
+    width: 50px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 5px; /* Space between role text and icon */
+}
+
+
+
+.letterCounter{
+    font-weight: bold;
+    padding-right: 5px;
+    align-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
+/* Play.module.css */
+.notificationContainer {
+    position: fixed;
+    bottom: 20px; /* Position from the bottom */
+    left: 20px; /* Position from the left */
+    max-width: 300px; /* Maximum width for notifications */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
+
+
+.buttonDrawingSave{
+    font-weight: bold;
+    font-style: italic;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+
+.buttonDrawingSave:hover {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+

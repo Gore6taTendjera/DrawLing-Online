@@ -1,0 +1,67 @@
+{
+  "name": "drawling-client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@stomp/stompjs": "^7.0.0",
+    "@types/react-helmet": "^6.1.11",
+    "axios": "^1.7.7",
+    "cypress": "^13.17.0",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^6.26.2",
+    "serve": "^14.2.4",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/js-cookie": "^3.0.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.9",
+    "@vitejs/plugin-react": "^4.3.1",
+    "cypress-wait-until": "^3.0.2",
+    "cypress-xpath": "^2.0.1",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.0.1",
+    "vite": "^5.4.1"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-android-arm-eabi": "4.27.4",
+    "@rollup/rollup-android-arm64": "4.27.4",
+    "@rollup/rollup-darwin-arm64": "4.27.4",
+    "@rollup/rollup-darwin-x64": "4.27.4",
+    "@rollup/rollup-freebsd-arm64": "4.27.4",
+    "@rollup/rollup-freebsd-x64": "4.27.4",
+    "@rollup/rollup-linux-arm-gnueabihf": "4.27.4",
+    "@rollup/rollup-linux-arm-musleabihf": "4.27.4",
+    "@rollup/rollup-linux-arm64-gnu": "4.27.4",
+    "@rollup/rollup-linux-arm64-musl": "4.27.4",
+    "@rollup/rollup-linux-powerpc64le-gnu": "4.27.4",
+    "@rollup/rollup-linux-riscv64-gnu": "4.27.4",
+    "@rollup/rollup-linux-s390x-gnu": "4.27.4",
+    "@rollup/rollup-linux-x64-gnu": "4.27.4",
+    "@rollup/rollup-linux-x64-musl": "4.9.5",
+    "@rollup/rollup-win32-arm64-msvc": "4.27.4",
+    "@rollup/rollup-win32-ia32-msvc": "4.27.4"
+  }
+}

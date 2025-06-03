@@ -1,0 +1,28 @@
+package com.example.drawling.domain.model.game;
+
+import com.example.drawling.domain.Interface.IGameMode;
+import com.example.drawling.domain.Interface.IGameRound;
+import com.example.drawling.domain.enums.game.GameModeState;
+import com.example.drawling.domain.model.Player;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class GameModeDuo implements IGameMode {
+    private int maxPlayers;
+    private List<Player> drawingPlayer;
+    private List<Player> guessingPlayers;
+    private List<IGameRound> gameRounds;
+    private GameModeState gameModeState;
+
+    public GameModeDuo(int maxPlayers, List<IGameRound> gameRounds) {
+        this.maxPlayers = maxPlayers;
+        this.gameRounds = gameRounds;
+        this.gameModeState = GameModeState.LOBBY;
+    }
+}

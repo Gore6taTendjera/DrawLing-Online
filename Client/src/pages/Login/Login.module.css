@@ -1,0 +1,122 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #2e0249, #5b2c6f);
+    font-family: Arial, sans-serif;
+}
+
+.loginForm {
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-align: center;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOutAnimation {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.fadeIn {
+    animation: fadeInAnimation 0.5s ease forwards;
+}
+
+.fadeOut {
+    animation: fadeOutAnimation 0.5s ease forwards;
+}
+
+.inputGroup {
+    margin-bottom: 1rem;
+    text-align: left;
+    width: 100%;
+}
+
+.inputGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #e3d5ff;
+}
+
+.inputGroup input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.inputGroup input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.submitButton {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #5b2c6f, #2e0249);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.submitButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.error {
+    color: #ff4d4d;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.toggleText {
+    margin-top: 1rem;
+    color: #f3e5ff;
+}
+
+.toggleButton {
+    background: none;
+    border: none;
+    color: #b15dff;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}

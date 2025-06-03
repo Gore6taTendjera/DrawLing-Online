@@ -1,0 +1,4 @@
+package com.example.drawling.business.implementation.game.mode;
+
+public class GameWordGeneratorImpl {
+}
